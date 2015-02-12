@@ -25,19 +25,31 @@
 package net.starwix;
 
 import java.awt.AWTException;
+import java.awt.GraphicsEnvironment;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Robot;
 
+/**
+ * 
+ * @author starwix
+ *
+ */
 public class Cursor {
 	
 	private Robot robot;
 	private double delta;
 	
-	public Cursor(int frequency, double speed) throws AWTException {
+	public Cursor(int rate, double speed) throws AWTException {
 		robot = new Robot();
-		robot.setAutoDelay(1000 / frequency);
-		this.delta = speed / frequency;
+		robot.setAutoDelay(1000 / rate);
+		this.delta = speed / rate;
+	}
+	
+	public Cursor(double speed) throws AWTException {
+		this(GraphicsEnvironment.getLocalGraphicsEnvironment()
+				.getDefaultScreenDevice().getDisplayMode().getRefreshRate(),
+				speed);
 	}
 	
 	public void move(Point target) {
